@@ -1,0 +1,49 @@
+1. u1 = User.objects.create_user("Денис")
+   u2 = User.objects.create_user("Антон")
+
+2. a1 = Author.objects.create(user=u1)
+   a2 = Author.objects.create(user=u2)
+
+3. cat1 = Category.objects.create(name="Культура")
+   cat2 = Category.objects.create(name="Музыка")
+   cat3 = Category.objects.create(name="История")
+   cat4 = Category.objects.create(name="Экономика")
+
+4. p1 = Post.objects.create(author=a1, title="Заголовок", type="NE", text="Текст новости")
+   p2 = Post.objects.create(author=a1, title="Заголовок", type="AR", text="Текст статьи")
+   p3 = Post.objects.create(author=a2, title="Заголовок", type="AR", text="Текст статьи 2")
+
+5. p1.category.add(cat2)
+   p1.category.add(cat1)
+
+6. comment1 = Comment.objects.create(text="Отличный пост!", post=p1, user=u1, rating=5)
+   comment2 = Comment.objects.create(text="Интересная статья!", post=p2, user=u2, rating=5)
+   comment3 = Comment.objects.create(text="Спасибо за информацию!", post=p3, user=u2, rating=3)
+   comment4 = Comment.objects.create(text="Ждем продолжения!", post=p1, user=u1, rating=2)
+
+
+7. p1 = Post.objects.get(id=1)  
+   post1.like()
+   
+   comment1 = Comment.objects.get(id=1) 
+   comment1.dislike()
+
+8. u1 = User.objects.get(id=1)                     
+   a1 = Author.objects.get(pk=1)
+   a1.update_rating()
+
+9. author_best_post = Post.objects.order_by('-rating').values_list('author__user__username', flat=True).
+first()
+
+10. Post.objects.order_by('-rating').values_list('author__user__username', 'rating', 'title').
+first()
+
+11.post_id = p1
+post = Post.objects.get(pk=post_id)
+comments = Comment.objects.filter(post=post)
+for comment in comments:
+    print("Дата:", comment.comment_time)
+    print("Пользователь:", comment.user.username)
+    print("Рейтинг:", comment.rating)
+    print("Текст:", comment.text)
+    print("---------------")
